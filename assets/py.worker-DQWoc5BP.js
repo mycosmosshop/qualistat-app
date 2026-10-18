@@ -1,0 +1,7 @@
+const e=`https://cdn.jsdelivr.net/pyodide/v0.28.3/full/`,t=[`numpy`,`scipy`,`pydantic`,`micropip`,`anyio`,`sniffio`,`typing-extensions`,`annotated-types`],n=self;let r=null;const i=e=>n.postMessage({type:`progress`,text:e});async function a(n){i(`Python yükleniyor…`);let r=await(await import(
+/* @vite-ignore */
+`${e}pyodide.mjs`)).loadPyodide({indexURL:e});i(`Bilimsel paketler yükleniyor (numpy, scipy)…`),await r.loadPackage(t),i(`Hesaplama motoru hazırlanıyor…`);let a=await(await fetch(`${n}engine/manifest.json`)).json(),o=r.pyimport(`micropip`);for(let e of a.wheels){let t=new Uint8Array(await(await fetch(`${n}engine/${e}`)).arrayBuffer());r.FS.writeFile(`/tmp/${e}`,t),await o.install(`emfs:/tmp/${e}`,{deps:!1})}let s=await(await fetch(`${n}engine/${a.files}`)).json();for(let[e,t]of Object.entries(s))r.FS.mkdirTree(`/engine/${e.split(`/`).slice(0,-1).join(`/`)}`),r.FS.writeFile(`/engine/${e}`,t);return await r.runPythonAsync(`
+import sys
+sys.path.insert(0, '/engine')
+from qualistat.browser_bridge import call as qs_call
+`),r.globals.get(`qs_call`)}n.onmessage=async e=>{let t=e.data;if(t.type===`init`){r??=a(t.base??`/`);try{await r,n.postMessage({type:`ready`})}catch(e){n.postMessage({type:`failed`,text:String(e)})}}else try{let e=await(r??Promise.reject(/* @__PURE__ */ Error(`Motor başlatılmadı`))),i=JSON.parse(await e(t.path??``,t.body??`{}`));n.postMessage({id:t.id,status:i.status,body:i.body})}catch(e){n.postMessage({id:t.id,status:500,body:JSON.stringify({detail:`Tarayıcı içi hesaplama hatası: ${String(e).slice(0,400)}`})})}};

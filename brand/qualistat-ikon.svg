@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 104 100" width="104" height="100" role="img" aria-label="QualiStat">
+  <g transform="translate(2 0) scale(1)" fill="none" stroke-linejoin="miter" stroke-linecap="square">
+    <path d="M19 87V56h16v31M41 87V39h16v48M64 87V36M80 36v51H19" stroke="#0a2540" stroke-width="3.4"/>
+    <path d="M72 76V14" stroke="#0e8a76" stroke-width="3.4" stroke-linecap="butt"/>
+    <path d="M60.5 26.5L72 14l11.5 12.5" stroke="#0e8a76" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+</svg>

@@ -1,0 +1,10 @@
+const e=`https://cdn.jsdelivr.net/pyodide/v0.28.3/full/`,t=[`numpy`,`scipy`,`pydantic`,`anyio`,`sniffio`,`typing-extensions`,`annotated-types`],n=self;let r=null;const i=e=>n.postMessage({type:`progress`,text:e});async function a(e,t=!1){let n=``;for(let r=0;r<4;r++){try{let r=await fetch(e,t?{cache:`no-cache`}:void 0);if(r.ok)return r;n=`HTTP ${r.status}`}catch(e){n=String(e)}await new Promise(e=>setTimeout(e,800*(r+1)))}throw Error(`${e.split(`/`).pop()} indirilemedi (${n})`)}async function o(n){i(`Python yükleniyor…`);let r=await(await import(
+/* @vite-ignore */
+`${e}pyodide.mjs`)).loadPyodide({indexURL:e});i(`Bilimsel paketler yükleniyor (numpy, scipy)…`),await r.loadPackage(t),i(`Hesaplama motoru hazırlanıyor…`);let o=await(await a(`${n}engine/manifest.json`,!0)).json();for(let e of o.wheels){let t=new Uint8Array(await(await a(`${n}engine/${e}`)).arrayBuffer());if(t[0]!==80||t[1]!==75)throw Error(`${e} indirilemedi (geçersiz dosya)`);r.FS.writeFile(`/tmp/${e}`,t),await r.runPythonAsync(`
+import zipfile, sysconfig
+zipfile.ZipFile('/tmp/${e}').extractall(sysconfig.get_paths()['purelib'])
+`)}let s=await(await a(`${n}engine/${o.files}`)).json();for(let[e,t]of Object.entries(s))r.FS.mkdirTree(`/engine/${e.split(`/`).slice(0,-1).join(`/`)}`),r.FS.writeFile(`/engine/${e}`,t);return await r.runPythonAsync(`
+import sys
+sys.path.insert(0, '/engine')
+from qualistat.browser_bridge import call as qs_call
+`),r.globals.get(`qs_call`)}n.onmessage=async e=>{let t=e.data;if(t.type===`init`){r??=o(t.base??`/`);try{await r,n.postMessage({type:`ready`})}catch(e){n.postMessage({type:`failed`,text:String(e)})}}else try{let e=await(r??Promise.reject(/* @__PURE__ */ Error(`Motor başlatılmadı`))),i=JSON.parse(await e(t.path??``,t.body??`{}`));n.postMessage({id:t.id,status:i.status,body:i.body})}catch(e){n.postMessage({id:t.id,status:500,body:JSON.stringify({detail:`Tarayıcı içi hesaplama hatası: ${String(e).slice(0,400)}`})})}};

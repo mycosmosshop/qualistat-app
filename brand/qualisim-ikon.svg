@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 104 100" width="104" height="100" role="img" aria-label="QualiSIM">
+  <g>
+    <path d="M78 12a26 26 0 0 1 20 20" fill="none" stroke="#c3cfd1" stroke-width="0.9" stroke-dasharray="1.6 2.2"/>
+    <circle cx="74" cy="40" r="1.3" fill="#c3cfd1"/><circle cx="80" cy="44" r="0.9" fill="#c3cfd1"/>
+    <path d="M24 22H62a15 15 0 0 1 0 30H42a15 15 0 0 0 0 30H74" fill="none" stroke="#034f57" stroke-width="7.5" stroke-linejoin="round"/>
+    <path d="M73 73.5L86 82L73 90.5Z" fill="#034f57"/>
+    <rect x="16" y="14" width="16" height="16" rx="2" fill="#034f57"/>
+    <rect x="45" y="44" width="16" height="16" rx="2" fill="#034f57"/><rect x="49" y="48" width="8" height="8" rx="1" fill="#ffffff"/>
+    <circle cx="76.5" cy="37" r="5" fill="#f04e0b"/>
+    <circle cx="88" cy="14" r="2.9" fill="#034f57"/><circle cx="96" cy="24" r="3.3" fill="#f04e0b"/>
+  </g>
+</svg>
